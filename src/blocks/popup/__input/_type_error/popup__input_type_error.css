@@ -1,0 +1,16 @@
+.popup__input_type_error {
+    border-bottom-color: #FF0000;
+}
+
+.popup__input_type_error + .form__input-error {
+    font-size: 12px;
+    color: #FF0000;
+}
+
+.popup__button_disabled {
+    background-color: transparent;
+    opacity: 0.2;
+    color: #000;
+    border: 1px solid #000;
+    pointer-events: none;
+}
