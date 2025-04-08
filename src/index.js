@@ -161,7 +161,7 @@ const renderLoading = (event, isLoading) => {
 
 editProfileImgForm.addEventListener('submit', event => {
     event.preventDefault();
-    renderLoading(true);
+    renderLoading(event, true);
     editProfileImg(editProfileImgForm.link.value)
         .then(profile => {
             profileImg.style.backgroundImage = `url(${profile.avatar})`
@@ -169,14 +169,14 @@ editProfileImgForm.addEventListener('submit', event => {
         })
         .catch(err => console.log(err))
         .finally(() => {
-            renderLoading(false);
+            renderLoading(event, false);
         });
 })
 
 // Обработчик формы редактирования профиля
 editProfileForm.addEventListener('submit', event => {
     event.preventDefault();
-    renderLoading(true);
+    renderLoading(event, true);
     editProfile(editProfileForm.name.value, editProfileForm.description.value)
         .then(profile => {
             profileTitle.textContent = profile.name;
@@ -185,14 +185,14 @@ editProfileForm.addEventListener('submit', event => {
         })
         .catch(err => console.log(err))
         .finally(() => {
-            renderLoading(false);
+            renderLoading(event, false);
         });
 });
 
 // Обработчик формы добавления карточки
 cardCreateForm.addEventListener("submit", event => {
     event.preventDefault();
-    renderLoading(true);
+    renderLoading(event, true);
     postCard(cardNameInput.value, cardUrlInput.value)
         .then(card => {
             addCardToPage(cardsContainer, card, prependToContainer);
@@ -201,6 +201,6 @@ cardCreateForm.addEventListener("submit", event => {
         .catch(err => console.log(err))
         .finally(() => {
             cardCreateForm.reset();
-            renderLoading(false);
+            renderLoading(event, false);
         });
 });
