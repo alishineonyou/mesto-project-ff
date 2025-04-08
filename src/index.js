@@ -140,6 +140,8 @@ buttonCardCreate.addEventListener("click", () => {
 });
 buttonProfileEdit.addEventListener('click', () => {
     clearValidation(editProfileForm, validationConfig);
+    editProfileForm.name.value = profileTitle.textContent;
+    editProfileForm.description.value = profileDescription.textContent;
     openPopup(popupProfileEdit);
 });
 
@@ -153,49 +155,52 @@ document.querySelectorAll(".popup").forEach((popup) => {
     popup.addEventListener("mousedown", handleOverlayClick);
 });
 
+const renderLoading = (event, isLoading) => {
+    event.submitter.textContent = isLoading ? 'Сохранение...' : 'Сохранить';
+}
+
 editProfileImgForm.addEventListener('submit', event => {
     event.preventDefault();
-    event.submitter.textContent = 'Сохранение...'
+    renderLoading(true);
     editProfileImg(editProfileImgForm.link.value)
         .then(profile => {
             profileImg.style.backgroundImage = `url(${profile.avatar})`
+            closePopup(popupProfileEditImg);
         })
         .catch(err => console.log(err))
         .finally(() => {
-            closePopup(popupProfileEditImg);
-            event.submitter.textContent = 'Сохранить'
+            renderLoading(false);
         });
 })
 
 // Обработчик формы редактирования профиля
 editProfileForm.addEventListener('submit', event => {
     event.preventDefault();
-    event.submitter.textContent = 'Сохранение...'
+    renderLoading(true);
     editProfile(editProfileForm.name.value, editProfileForm.description.value)
         .then(profile => {
             profileTitle.textContent = profile.name;
             profileDescription.textContent = profile.about;
+            closePopup(popupProfileEdit);
         })
         .catch(err => console.log(err))
         .finally(() => {
-            closePopup(popupProfileEdit);
-            event.submitter.textContent = 'Сохранить';
+            renderLoading(false);
         });
 });
 
 // Обработчик формы добавления карточки
 cardCreateForm.addEventListener("submit", event => {
     event.preventDefault();
-
-    event.submitter.textContent = 'Сохранение...'
+    renderLoading(true);
     postCard(cardNameInput.value, cardUrlInput.value)
         .then(card => {
             addCardToPage(cardsContainer, card, prependToContainer);
+            closePopup(popupCardCreate);
         })
         .catch(err => console.log(err))
         .finally(() => {
-            closePopup(popupCardCreate);
             cardCreateForm.reset();
-            event.submitter.textContent = 'Сохранить';
+            renderLoading(false);
         });
 });
